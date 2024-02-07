@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         ball.style.left=`${ballX}px`; //update the left of the ball 
         ball.style.top=`${ballY}px`; //update the top of the ball 
 
-        //collision of ball and paddle (added paddle col logic)
+        //collision of ball and paddle (added paddle collision logic)
         if(ballX < paddle.offsetLeft + paddle.offsetWidth && 
             ballY > paddle.offsetTop &&
             ballY + ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight)
@@ -79,5 +79,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
         paddle.style.top=`${paddleY}px`;
 
     });
+
+    //Adding paddle movement by the mouse
+    document.addEventListener("mousemove", (event)=>{
+        if(event.clientX > table.offsetLeft+(table.offsetWidth/2))return;
+
+        let mouseMoseDistanceFromTop = event.clientY; //this is the distance of the mouse point from the top the screen
+        let distanceOfTableFromTop=table.offsetTop;
+        
+        let mousePointControl=mouseMoseDistanceFromTop-distanceOfTableFromTop-paddle.offsetHeight/2;
+        paddleY=mousePointControl;
+
+        //if bottom of the paddle touches bottom of the table then return 
+        if(paddleY <= 0 || paddleY > table.offsetHeight - paddle.offsetHeight)
+        return;
+        paddle.style.top=`${paddleY}px`;
+
+    })
+
 
 });
