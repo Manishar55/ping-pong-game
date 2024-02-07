@@ -31,6 +31,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
         ball.style.left=`${ballX}px`; //update the left of the ball 
         ball.style.top=`${ballY}px`; //update the top of the ball 
 
+        //collision of ball and paddle (added paddle col logic)
+        if(ballX < paddle.offsetLeft + paddle.offsetWidth && 
+            ballY > paddle.offsetTop &&
+            ballY + ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight)
+            {
+                dx*=-1;
+            }
+
+            //ballX < paddle.offsetLeft + paddle.offsetWidth =>left(wrt table) of ball < right(wrt table) of the paddle
+            //ballY > paddle.offsetTop => if top(wrt table) of ball > top(wrt table) of paddle
+            //ballY + ball.offsetHeight < paddle.offsetTop + paddle.offsetHeight
+            //ballY + ball.offsetHeight =>bottom of the ball
+            //paddle.offsetTop + paddle.offsetHeight => bottom of paddle
+
+
         // if(ballX > 700-20 || ballX <= 0) dx*=-1;
         // if(ballY > 400-20 || ballY <= 0) dy*=-1;
 
@@ -43,11 +58,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
         if(ballY > table.offsetHeight - ball.offsetHeight || ballY <= 0) dy*=-1; //change in y-direction
 
 
-    },1);
+
+    },10);
 
     let paddleY=0;
     let dpY=5; //displacement for paddle in Y direction
     document.addEventListener("keydown", (event)=>{
+
+        event.preventDefault(); //prevents the execution of the default behaviour //prevents scrolling of the page
+
         if(event.keyCode==38 && paddleY>0){
             //up arrow is pressed
             paddleY+=(-1)*dpY;
@@ -58,7 +77,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             paddleY+=dpY;
         }
         paddle.style.top=`${paddleY}px`;
-    })
 
-    
+    });
+
 });
